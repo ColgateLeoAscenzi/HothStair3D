@@ -1,7 +1,6 @@
 function handleKeyUp(keyEvent){
   if(keyEvent.key == "x"){
-    alert("FUNCTIONING");
-
+    mainMenuZoom();
   }
 }
 
