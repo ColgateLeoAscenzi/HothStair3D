@@ -17,6 +17,8 @@ var mouse = new THREE.Vector2();
 var controls;
 var loader = new THREE.TextureLoader();
 
+var snowObj;
+
 
 //SCREEN & MOUSE VARIABLES
 
@@ -82,7 +84,8 @@ var then = Date.now();
 var now = 0;
 var delta = -1;
 var curPI = 0;
-
+var points = genCircle();
+points.push(0,0,0);
 
 //THIS IS THE GAME LOOP
 function loop() {
@@ -97,7 +100,7 @@ function loop() {
 
   if(cameraMoving){
     // var points = [[10,10,10],[0,9,10],[-10,8,10],[-10,7,0], [-10,6,-10], [0,5,-10],[10,4,-10],[10,3,0],[10,2,10]];
-    var points = genCircle();
+
     var currentPoint;
     var movements;
     var target;
@@ -105,7 +108,9 @@ function loop() {
     var camSmoothing = 1;
 
     if(cameraStage == 1){
-      cameraSpeed = 6*0.12*delta;
+      // cameraSpeed = 6*0.12*delta;
+      cameraSpeed = 600*0.12*delta;
+
       camSmoothing = 2;
       //point close to planet
       target = new THREE.Vector3(10, 10, 0);
@@ -142,7 +147,9 @@ function loop() {
 
     }
     if(cameraStage == 2){
-      cameraSpeed = 100*0.12*delta;
+      // cameraSpeed = 100*0.12*delta;
+      cameraSpeed = 600*0.12*delta;
+
       camSmoothing = 2;
       target = new THREE.Vector3(points[curPI][0],points[curPI][1],points[curPI][2]);
 
@@ -179,9 +186,6 @@ function loop() {
       }
 
 
-      if(curPI == 80){
-        createWhiteTransition();
-      }
 
       camera.lookAt(0,0,0);
 
@@ -191,9 +195,29 @@ function loop() {
 
     }
     if(cameraStage == 3){
-      console.log(camera.position);
+      createWhiteTransition();
+      cameraMoving = false;
+      scene = new THREE.Scene();
+      camera.position.set(10,10,0);
+      camera.lookAt(-20,0,0);
 
+      var gameLight = new THREE.AmbientLight(0xddddff, 1.2, 100);
+      gameLight.position.set(15,5,0);
+      scene.add(gameLight);
+
+      createSnowBackground();
+      createPlatform();
+      createSnow();
     }
+
+  }
+
+
+  if(snowObj){
+    snowObj.position = camera.position;
+    snowObj.rotation.x+=0.002+Math.random()*0.003;
+    snowObj.rotation.y+=0.002+Math.random()*0.002;
+    snowObj.rotation.z+=0.002+Math.random()*0.001;
   }
 
 }
