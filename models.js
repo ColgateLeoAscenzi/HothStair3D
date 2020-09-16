@@ -33,7 +33,6 @@ function createTauntaun(){
     var GLLoader = new THREE.GLTFLoader();
 
     var tauntaunScene = GLLoader.load("./blendermodels/tauntaun.glb", handle_load);
-    gameStage = 2;
 
 }
 

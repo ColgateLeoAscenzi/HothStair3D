@@ -16,16 +16,19 @@ function handleKeyDown(keyEvent){
 
 
   if(gameStage == 0){
-    if(keyEvent){
+    if(keyEvent.key != "Alt" && keyEvent.key != "Tab"){
       mediaElement.play();
       playingM = true;
 
       var boxVar = document.getElementById("banner");
       boxVar.parentNode.removeChild(boxVar);
+      var boxVar = document.getElementById("title");
+      boxVar.parentNode.removeChild(boxVar);
 
       mainMenuZoom();
+      gameStage = 1;
+
     }
-    gameStage = 1;
   }
 }
 
@@ -35,17 +38,5 @@ function onMouseMove(event){
 }
 
 function onMouseDown(event){
-  if(gameStage == 2){
-    //n = parseInt(prompt("How many stairs would you like to climb?"));
-    n = 18;
-    console.log(n);
-    var differentChoices = climbingStairs(n);
-    console.log(differentChoices);
 
-  //  alert("You have "+differentChoices+" number of different ways to ascend this mountain");
-    scene.remove(platMesh2);
-    createStairs(n);
-    cameraStage = 4;
-    cameraMoving = true;
-  }
 }

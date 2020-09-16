@@ -27,6 +27,8 @@ var snowObj;
 
 var tick = 0;
 
+var differentChoices;
+
 
 //SCREEN & MOUSE VARIABLES
 
@@ -254,6 +256,55 @@ function loop() {
       createTauntaun();
 
 
+      var container = document.getElementById("container");
+      var modalDiv = document.createElement("div");
+      modalDiv.class = "modal";
+      modalDiv.innerHTML = '<div class="modal-content" id = "introModal"><div class="modal-header"><h2>Welcome to Climb-I-Must</h2></div><div class="modal-body"><p>You\'re a rebel scout on the ice planet, Hoth. While killing time waiting for the Empire to find your base, you ride your trusty Tauntaun around the plant. </p>'+
+                          '<p>You wander upon a very tall ice staircase leading up a mountainside that takes n steps to reach.</p><p>Having plenty of time on your hands, you decide you want to figure out how many ways are there to reach the top.</p>'+
+                          '<p>The catch is that for each step, your Tauntauan can only climb 1 or 2 steps at a given time.</p>'+'<p>Luckily, if you tell me how tall that staircase is, HQ can run a calculation and tell you how many ways there are!</p>'+
+                          '<div class="modal-footer1" id = "closeButton"><h3>Next</h3></div>';
+      container.appendChild(modalDiv)
+
+
+      var modal = document.getElementById("introModal");
+
+      modal.style.display = "block";
+
+      var close = document.getElementById("closeButton");
+
+
+      close.onclick = function(event) {
+          modal.parentNode.removeChild(modal);
+        //  modal.style.display = "none";
+          modalDiv = document.createElement("div");
+          modalDiv.class = "modal";
+          modalDiv.innerHTML = '<div class="modal-content" id = "introModal"><div class="modal-header"><h2>How Many Steps Are There?</h2></div><div class="modal-body"><p><input id = "numStairs" type = "text"></p>'+
+                              '<div class="modal-footer1" id = "closeButton"><h3>Submit</h3></div>';
+          container.appendChild(modalDiv)
+          modal = document.getElementById("introModal");
+          close = document.getElementById("closeButton");
+
+          close.onclick =function(event){
+            modal.style.display = "none"
+            var answer = document.getElementById("numStairs");
+            n = parseInt(answer.value);
+
+            console.log(n);
+            differentChoices = climbingStairs(n);
+            console.log(differentChoices);
+            scene.remove(platMesh2);
+            createStairs(n);
+            cameraStage = 4;
+            cameraMoving = true;
+            gameStage = 3;
+
+            createStats();
+
+
+          }
+      }
+
+
     }
 
     if(cameraStage == 4){
@@ -329,6 +380,7 @@ function loop() {
       }
     }
     if(cameraStage == 7){
+      updateStats();
       if(!basicDebugCam){
         camera.position.set(Tauntaun.position.x+16,Tauntaun.position.y+20, Tauntaun.position.z-20);
         camera.lookAt(Tauntaun.position);
