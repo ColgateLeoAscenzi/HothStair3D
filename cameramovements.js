@@ -7,8 +7,7 @@ function mainMenuZoom(){
 }
 
 
-function moveTowardPoint(camera, x, y, z){
-  var thresh = 0.1;
+function moveTowardPoint(camera, x, y, z, thresh){
   return [Math.abs(camera.position.x-x) > thresh,
           Math.abs(camera.position.y-y) > thresh,
           Math.abs(camera.position.z-z) > thresh];

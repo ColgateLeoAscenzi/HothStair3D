@@ -1,28 +1,65 @@
 function createRider(){
   //TODO if I have time
 }
+var platMesh2;
+function createStairs(number){
+  for(var i = 0; i < number; i++){
+    var stair = createStair();
+    stair.position.set(-43-i*3,2+i*3,0);
+    scene.add(stair);
+  }
+
+  var platGeom3 = new THREE.BoxGeometry(3*Math.sqrt(2)*number,2,300, 1,1,1);
+  var platMat3 = new THREE.MeshPhongMaterial({color: 0xd6ecef});
+  var platMesh3 = new THREE.Mesh(platGeom3, platMat3)
+
+  platMesh3.position.set(-50+(-number*3)/2,(number*3)/2,0);
+  platMesh3.rotation.set(0,0,-.78);
+  scene.add(platMesh3);
+
+  var platGeom4 = new THREE.BoxGeometry(300,2,300, 1,1,1);
+  var platMat4 = new THREE.MeshPhongMaterial({color: 0xc5dbde});
+  var platMesh4 = new THREE.Mesh(platGeom4, platMat4)
+  platMesh4.position.set(-198-(number*3),(number*3)-2,0);
+  scene.add(platMesh4);
+}
+
+function createStair(){
+  return new THREE.Mesh(new THREE.BoxGeometry(3,3,15,1,1,1),
+                        new THREE.MeshBasicMaterial({color: 0xd6ecef}));
+}
 
 function createTauntaun(){
     var GLLoader = new THREE.GLTFLoader();
 
     var tauntaunScene = GLLoader.load("./blendermodels/tauntaun.glb", handle_load);
+    gameStage = 2;
+
 }
 
 function handle_load(gltf){
 
   Tauntaun = gltf.scene.children[0];
   scene.add(Tauntaun);
-  Tauntaun.rotation.set(-1.57,0,-1.5);
+  Tauntaun.rotation.set(-1.57,0,-1.3);
   Tauntaun.scale.set(0.2,0.2,0.2);
   Tauntaun.position.set(-20,5,0);
   Tauntaun.material = new THREE.MeshPhongMaterial({color: 0x000000});
 }
 
 function createPlatform(){
-  var platMesh = new THREE.BoxGeometry(100,2,100, 1,1,1);
-  var platMat = new THREE.MeshPhongMaterial({color: 0xd6ecef});
+  var platGeom = new THREE.BoxGeometry(100,2,300, 1,1,1);
+  var platMat = new THREE.MeshPhongMaterial({color: 0xc5dbde});
 
-  scene.add(new THREE.Mesh(platMesh, platMat));
+  scene.add(new THREE.Mesh(platGeom, platMat));
+
+  var platGeom2 = new THREE.BoxGeometry(100,2,100, 1,1,1);
+  var platMat2 = new THREE.MeshPhongMaterial({color: 0xd6ecef});
+  platMesh2 = new THREE.Mesh(platGeom2, platMat2)
+  platMesh2.position.set(-82,35.35,0);
+  platMesh2.rotation.set(0,0,-.78);
+  scene.add(platMesh2);
+
 }
 
 function createSnowBackground(){
@@ -33,8 +70,7 @@ function createSnowBackground(){
 }
 
 function createSnow(){
-  // var snowCount = 1000;
-  var snowCount = 0;
+  var snowCount = 1000;
   snowObj = new THREE.Object3D();
 
 

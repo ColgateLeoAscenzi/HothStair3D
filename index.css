@@ -2,3 +2,24 @@ body{
     background-color:#D2D4D6;
     margin:0px
 }
+
+@font-face {
+  font-family: 'dpcomic';
+  src: url('../lib/font-awesome/fonts/dpcomic.ttf');
+}
+
+*{
+    font-family: "dpcomic";
+}
+
+#start{
+  animation:fading 2s infinite;
+}
+@keyframes
+fading{0%{opacity:0}50%{opacity:1}100%{opacity:0}}
+
+#title{
+  animation:fading 2s infinite;
+}
+@keyframes
+fading{0%{opacity:0}50%{opacity:1}100%{opacity:0}}
