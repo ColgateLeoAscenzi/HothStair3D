@@ -44,7 +44,7 @@ function createCameraRender() {
     );
   //
   camera.position.x = 20;
-  camera.position.z = 20;
+  camera.position.z = 0;
   camera.position.y = 20;
 
   camera.lookAt(0,0,0);
@@ -81,6 +81,9 @@ function handleWindowResize() {
 var then = Date.now();
 var now = 0;
 var delta = -1;
+var curPI = 0;
+
+
 //THIS IS THE GAME LOOP
 function loop() {
 
@@ -93,17 +96,102 @@ function loop() {
 
 
   if(cameraMoving){
+    // var points = [[10,10,10],[0,9,10],[-10,8,10],[-10,7,0], [-10,6,-10], [0,5,-10],[10,4,-10],[10,3,0],[10,2,10]];
+    var points = genCircle();
+    var currentPoint;
+    var movements;
+    var target;
+    var cameraSpeed = 0;
+    var camSmoothing = 1;
+
     if(cameraStage == 1){
-      console.log("here")
-      if(camera.position.x > 10 && camera.position.y > 10 && camera.position.z > 10){
-        var cameraSpeed = 10*0.012*delta;
-        camera.position.set(camera.position.x-cameraSpeed,camera.position.y-cameraSpeed,camera.position.z-cameraSpeed);
-      }
-      else{
+      cameraSpeed = 6*0.12*delta;
+      camSmoothing = 2;
+      //point close to planet
+      target = new THREE.Vector3(10, 10, 0);
+      movements = moveTowardPoint(camera, target.x, target.y, target.z);
+      camera.lookAt(0,0,0);
+      if(!movements[0] && !movements[1] && !movements[2]){
         cameraStage = 2;
       }
+
+      if(movements[0]){
+        if(camera.position.x < target.x){
+          camera.position.x += cameraSpeed*(Math.abs(target.x-camera.position.x)/camSmoothing);
+        }
+        else{
+          camera.position.x -= cameraSpeed*(Math.abs(target.x-camera.position.x)/camSmoothing);
+        }
+      }
+      if(movements[1]){
+        if(camera.position.y < target.y){
+          camera.position.y += cameraSpeed*(Math.abs(target.y-camera.position.y)/camSmoothing);
+        }
+        else{
+          camera.position.y -= cameraSpeed*(Math.abs(target.y-camera.position.y)/camSmoothing);
+        }
+      }
+      if(movements[2]){
+        if(camera.position.z < target.z){
+          camera.position.z += cameraSpeed*(Math.abs(target.z-camera.position.z)/camSmoothing);
+        }
+        else{
+          camera.position.z -= cameraSpeed*(Math.abs(target.z-camera.position.z)/camSmoothing);
+        }
+      }
+
     }
     if(cameraStage == 2){
+      cameraSpeed = 100*0.12*delta;
+      camSmoothing = 2;
+      target = new THREE.Vector3(points[curPI][0],points[curPI][1],points[curPI][2]);
+
+      movements = moveTowardPoint(camera, target.x, target.y, target.z);
+
+
+      if(!movements[0] && !movements[1] && !movements[2]){
+        curPI+=1;
+      }
+
+      if(movements[0]){
+        if(camera.position.x < target.x){
+          camera.position.x += cameraSpeed*(Math.abs(target.x-camera.position.x)/camSmoothing);
+        }
+        else{
+          camera.position.x -= cameraSpeed*(Math.abs(target.x-camera.position.x)/camSmoothing);
+        }
+      }
+      if(movements[1]){
+        if(camera.position.y < target.y){
+          camera.position.y += cameraSpeed*(Math.abs(target.y-camera.position.y)/camSmoothing);
+        }
+        else{
+          camera.position.y -= cameraSpeed*(Math.abs(target.y-camera.position.y)/camSmoothing);
+        }
+      }
+      if(movements[2]){
+        if(camera.position.z < target.z){
+          camera.position.z += cameraSpeed*(Math.abs(target.z-camera.position.z)/camSmoothing);
+        }
+        else{
+          camera.position.z -= cameraSpeed*(Math.abs(target.z-camera.position.z)/camSmoothing);
+        }
+      }
+
+
+      if(curPI == 80){
+        createWhiteTransition();
+      }
+
+      camera.lookAt(0,0,0);
+
+      if(curPI >= points.length){
+        cameraStage = 3;
+      }
+
+    }
+    if(cameraStage == 3){
+      console.log(camera.position);
 
     }
   }
@@ -128,7 +216,7 @@ function createWorld(){
   //scene.add(hothPlanet);
 
   var planetLight = new THREE.PointLight(0xddddff, 1.2, 100);
-  planetLight.position.set(15,5,30);
+  planetLight.position.set(15,5,10);
   scene.add(planetLight);
 
 

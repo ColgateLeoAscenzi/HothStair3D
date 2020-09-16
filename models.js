@@ -13,6 +13,11 @@ function createPlatform(){
   return new THREE.Mesh(platMesh, platMat);
 }
 
+//createWhiteTransition
+
+function createWhiteTransition(){
+  
+}
 
 //main menu screen creation
 function createHothPlanet(){
