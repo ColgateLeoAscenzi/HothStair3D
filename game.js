@@ -27,6 +27,10 @@ var HEIGHT, WIDTH
 var cameraMoving = false;
 var cameraStage = -1;
 
+
+var Tauntaun;
+var Rider;
+
 //INIT THREE JS, SCREEN AND MOUSE EVENTS
 
 function createCameraRender() {
@@ -208,6 +212,7 @@ function loop() {
       createSnowBackground();
       createPlatform();
       createSnow();
+      createTauntaun();
     }
 
   }

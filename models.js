@@ -1,11 +1,21 @@
 function createRider(){
-
+  //TODO if I have time
 }
 
 function createTauntaun(){
-  var Tauntaun = new THREE.Object3D();
-  
+    var GLLoader = new THREE.GLTFLoader();
 
+    var tauntaunScene = GLLoader.load("./blendermodels/tauntaun.glb", handle_load);
+}
+
+function handle_load(gltf){
+
+  Tauntaun = gltf.scene.children[0];
+  scene.add(Tauntaun);
+  Tauntaun.rotation.set(-1.57,0,-1.5);
+  Tauntaun.scale.set(0.2,0.2,0.2);
+  Tauntaun.position.set(-20,5,0);
+  Tauntaun.material = new THREE.MeshPhongMaterial({color: 0x000000});
 }
 
 function createPlatform(){
