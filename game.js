@@ -471,7 +471,15 @@ function loop() {
     }
 
     if(cameraStage == 8){
-      console.log("MADE IT");
+      if(Tauntaun.rotation.z > -1.1){
+        Tauntaun.rotation.z -= 0.01;
+      }
+      else{
+        cameraStage = 9;
+      }
+    }
+    if(cameraStage == 9){
+      Tauntaun.rotation.x=-1.57+0.1*Math.sin(tick*0.1);
     }
 
   }
