@@ -1,5 +1,5 @@
 function handleKeyUp(keyEvent){
-  if(keyEvent.key == "l"){
+  if(keyEvent.key == "x"){
     alert("FUNCTIONING");
 
   }
