@@ -8,7 +8,7 @@ function parabolicJumpH(TTX, TTY, jumpH){
 }
 
 function parabolicJump(startX, endX, midY){
-    return [[startX+(endX-startX)/2, midY,0]];
+    return [[startX+4*(endX-startX)/5, midY,0]];
 }
 
 

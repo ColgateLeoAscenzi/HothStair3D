@@ -261,7 +261,7 @@ function loop() {
       modalDiv.class = "modal";
       modalDiv.innerHTML = '<div class="modal-content" id = "introModal"><div class="modal-header"><h2>Welcome to Climb-I-Must</h2></div><div class="modal-body"><p>You\'re a rebel scout on the ice planet, Hoth. While killing time waiting for the Empire to find your base, you ride your trusty Tauntaun around the plant. </p>'+
                           '<p>You wander upon a very tall ice staircase leading up a mountainside that takes n steps to reach.</p><p>Having plenty of time on your hands, you decide you want to figure out how many ways are there to reach the top.</p>'+
-                          '<p>The catch is that for each step, your Tauntauan can only climb 1 or 2 steps at a given time.</p>'+'<p>Luckily, if you tell me how tall that staircase is, HQ can run a calculation and tell you how many ways there are!</p>'+
+                          '<p>The catch is that your Tauntaun can only climb 1 or 2 steps at a given time.</p>'+'<p>Luckily, if you tell me how tall that staircase is, HQ can run a calculation and tell you how many ways there are!</p>'+
                           '<div class="modal-footer1" id = "closeButton"><h3>Next</h3></div>';
       container.appendChild(modalDiv)
 
@@ -486,7 +486,7 @@ function loop() {
 
 
   if(snowObj){
-    snowObj.position = camera.position;
+    snowObj.position.set(camera.position.x,camera.position.y,camera.position.z);
     snowObj.rotation.x+=0.002+Math.random()*0.003;
     snowObj.rotation.y+=0.002+Math.random()*0.002;
     snowObj.rotation.z+=0.002+Math.random()*0.001;
