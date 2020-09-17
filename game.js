@@ -469,16 +469,25 @@ function loop() {
 
 
     }
-
     if(cameraStage == 8){
-      if(Tauntaun.rotation.z > -1.1){
-        Tauntaun.rotation.z -= 0.01;
+      if(Tauntaun.position.x > -43-n*3-10){
+        Tauntaun.position.x-=0.05;
+        Tauntaun.rotation.x=-1.57+0.1*Math.sin(tick*0.1);
       }
       else{
         cameraStage = 9;
       }
     }
+
     if(cameraStage == 9){
+      if(Tauntaun.rotation.z > -1.1){
+        Tauntaun.rotation.z -= 0.01;
+      }
+      else{
+        cameraStage = 10;
+      }
+    }
+    if(cameraStage == 10){
       Tauntaun.rotation.x=-1.57+0.1*Math.sin(tick*0.1);
     }
 
