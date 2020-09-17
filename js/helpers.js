@@ -1,3 +1,4 @@
+//MATH HELPERS
 function parabolicJumpH(TTX, TTY, jumpH){
   if(jumpH == 1){
     return parabolicJump(TTX, TTX-3, TTY+6);
@@ -12,6 +13,44 @@ function parabolicJump(startX, endX, midY){
 }
 
 
+function moveObjectTo(object, x, y, z, thresh, speed, smooth){
+  var moves = moveTowardPoint(object, x, y, z, thresh);
+  var pos = new THREE.Vector3(object.position.x,object.position.y,object.position.z);
+  if(moves[0]){
+    if(pos.x < x){
+      pos.x += speed*(Math.abs(x-pos.x)/smooth);
+    }
+    else{
+      pos.x -= speed*(Math.abs(x-pos.x)/smooth);
+    }
+  }
+  if(moves[1]){
+    if(pos.y < y){
+      pos.y += speed*(Math.abs(y-pos.y)/smooth);
+    }
+    else{
+      pos.y -= speed*(Math.abs(y-pos.y)/smooth);
+    }
+  }
+  if(moves[2]){
+    if(pos.z < z){
+      pos.z += speed*(Math.abs(z-pos.z)/smooth);
+    }
+    else{
+      pos.z -= speed*(Math.abs(z-pos.z)/smooth);
+    }
+  }
+
+
+  return [moves, pos];
+}
+
+
+
+
+
+
+///HTML HELPERS
 function createBanner(){
   var container = document.getElementById("container");
   var banner = document.createElement("div");

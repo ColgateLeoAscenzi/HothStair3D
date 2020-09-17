@@ -112,7 +112,6 @@ var delta = -1;
 var curPI = 0;
 var points = genCircle();
 points.push(0,0,0);
-
 var currStep = 0;
 var jumping = false;
 
@@ -148,46 +147,28 @@ function loop() {
 
     var currentPoint;
     var movements;
+    var newPos;
+    var values;
     var target;
     var cameraSpeed = 0;
     var camSmoothing = 1;
 
     if(cameraStage == 1){
+      //camera variables
       cameraSpeed = 6*0.12*delta;
-      // cameraSpeed = 600*0.12*delta;
-
       camSmoothing = 2;
-      //point close to planet
+      //select target
       target = new THREE.Vector3(10, 10, 0);
-      movements = moveTowardPoint(camera, target.x, target.y, target.z, 0.1);
+      //move object and return if needed to move and new position
+      values = moveObjectTo(camera, target.x, target.y, target.z, 0.1, cameraSpeed, camSmoothing);
+      movements = values[0];
+      newPos = values[1];
+      //set new position and view
+      camera.position.set(newPos.x, newPos.y, newPos.z);
       camera.lookAt(0,0,0);
+      //check if it's moved where it needs, update camera
       if(!movements[0] && !movements[1] && !movements[2]){
         cameraStage = 2;
-      }
-
-      if(movements[0]){
-        if(camera.position.x < target.x){
-          camera.position.x += cameraSpeed*(Math.abs(target.x-camera.position.x)/camSmoothing);
-        }
-        else{
-          camera.position.x -= cameraSpeed*(Math.abs(target.x-camera.position.x)/camSmoothing);
-        }
-      }
-      if(movements[1]){
-        if(camera.position.y < target.y){
-          camera.position.y += cameraSpeed*(Math.abs(target.y-camera.position.y)/camSmoothing);
-        }
-        else{
-          camera.position.y -= cameraSpeed*(Math.abs(target.y-camera.position.y)/camSmoothing);
-        }
-      }
-      if(movements[2]){
-        if(camera.position.z < target.z){
-          camera.position.z += cameraSpeed*(Math.abs(target.z-camera.position.z)/camSmoothing);
-        }
-        else{
-          camera.position.z -= cameraSpeed*(Math.abs(target.z-camera.position.z)/camSmoothing);
-        }
       }
 
     }
