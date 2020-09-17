@@ -143,8 +143,7 @@ function loop() {
 
 
   if(cameraMoving){
-    // var points = [[10,10,10],[0,9,10],[-10,8,10],[-10,7,0], [-10,6,-10], [0,5,-10],[10,4,-10],[10,3,0],[10,2,10]];
-
+    //trying to move out of loop
     var currentPoint;
     var movements;
     var newPos;
@@ -172,54 +171,28 @@ function loop() {
       }
 
     }
+
     if(cameraStage == 2){
       cameraSpeed = 100*0.12*delta;
-      // cameraSpeed = 600*0.12*delta;
-
       camSmoothing = 2;
+
       target = new THREE.Vector3(points[curPI][0],points[curPI][1],points[curPI][2]);
 
-      movements = moveTowardPoint(camera, target.x, target.y, target.z,0.1);
-
+      values = moveObjectTo(camera, target.x, target.y, target.z, 0.1, cameraSpeed, camSmoothing);
+      movements = values[0];
+      newPos = values[1];
+      camera.position.set(newPos.x, newPos.y, newPos.z);
+      camera.lookAt(0,0,0);
 
       if(!movements[0] && !movements[1] && !movements[2]){
         curPI+=1;
       }
 
-      if(movements[0]){
-        if(camera.position.x < target.x){
-          camera.position.x += cameraSpeed*(Math.abs(target.x-camera.position.x)/camSmoothing);
-        }
-        else{
-          camera.position.x -= cameraSpeed*(Math.abs(target.x-camera.position.x)/camSmoothing);
-        }
-      }
-      if(movements[1]){
-        if(camera.position.y < target.y){
-          camera.position.y += cameraSpeed*(Math.abs(target.y-camera.position.y)/camSmoothing);
-        }
-        else{
-          camera.position.y -= cameraSpeed*(Math.abs(target.y-camera.position.y)/camSmoothing);
-        }
-      }
-      if(movements[2]){
-        if(camera.position.z < target.z){
-          camera.position.z += cameraSpeed*(Math.abs(target.z-camera.position.z)/camSmoothing);
-        }
-        else{
-          camera.position.z -= cameraSpeed*(Math.abs(target.z-camera.position.z)/camSmoothing);
-        }
-      }
-
-
-
-      camera.lookAt(0,0,0);
-
       if(curPI >= points.length){
         cameraStage = 3;
       }
-
     }
+
     if(cameraStage == 3){
       createWhiteTransition();
       cameraMoving = false;
@@ -235,104 +208,29 @@ function loop() {
       createPlatform();
       createSnow();
       createTauntaun();
-
-
-      var container = document.getElementById("container");
-      var modalDiv = document.createElement("div");
-      modalDiv.class = "modal";
-      modalDiv.innerHTML = '<div class="modal-content" id = "introModal"><div class="modal-header"><h2>Welcome to Climb-I-Must</h2></div><div class="modal-body"><p>You\'re a rebel scout on the ice planet, Hoth. While killing time waiting for the Empire to find your base, you ride your trusty Tauntaun around the plant. </p>'+
-                          '<p>You wander upon a very tall ice staircase leading up a mountainside that takes n steps to reach.</p><p>Having plenty of time on your hands, you decide you want to figure out how many ways are there to reach the top.</p>'+
-                          '<p>The catch is that your Tauntaun can only climb 1 or 2 steps at a given time.</p>'+'<p>Luckily, if you tell me how tall that staircase is, HQ can run a calculation and tell you how many ways there are!</p>'+
-                          '<div class="modal-footer1" id = "closeButton"><h3>Next</h3></div>';
-      container.appendChild(modalDiv)
-
-
-      var modal = document.getElementById("introModal");
-
-      modal.style.display = "block";
-
-      var close = document.getElementById("closeButton");
-
-
-      close.onclick = function(event) {
-          modal.parentNode.removeChild(modal);
-        //  modal.style.display = "none";
-          modalDiv = document.createElement("div");
-          modalDiv.class = "modal";
-          modalDiv.innerHTML = '<div class="modal-content" id = "introModal"><div class="modal-header"><h2>How Many Steps Are There?</h2></div><div class="modal-body"><p><input id = "numStairs" type = "text"></p>'+
-                              '<div class="modal-footer1" id = "closeButton"><h3>Submit</h3></div>';
-          container.appendChild(modalDiv)
-          modal = document.getElementById("introModal");
-          close = document.getElementById("closeButton");
-
-          close.onclick =function(event){
-            modal.style.display = "none"
-            var answer = document.getElementById("numStairs");
-            n = parseInt(answer.value);
-
-            console.log(n);
-            differentChoices = climbingStairs(n);
-            console.log(differentChoices);
-            scene.remove(platMesh2);
-            createStairs(n);
-            cameraStage = 4;
-            cameraMoving = true;
-            gameStage = 3;
-
-            createStats();
-
-
-          }
-      }
-
+      createInputModal();
 
     }
 
     if(cameraStage == 4){
-
-
       cameraSpeed = 7*0.12*delta;
       camSmoothing = 2;
       target = new THREE.Vector3(Tauntaun.position.x+16,Tauntaun.position.y+20, Tauntaun.position.z-20);
 
-      movements = moveTowardPoint(camera, target.x, target.y, target.z,0.1);
-
-
-      if(!movements[0] && !movements[1] && !movements[2]){
-        cameraStage = 5;
-      }
-
-      if(movements[0]){
-        if(camera.position.x < target.x){
-          camera.position.x += cameraSpeed*(Math.abs(target.x-camera.position.x)/camSmoothing);
-        }
-        else{
-          camera.position.x -= cameraSpeed*(Math.abs(target.x-camera.position.x)/camSmoothing);
-        }
-      }
-      if(movements[1]){
-        if(camera.position.y < target.y){
-          camera.position.y += cameraSpeed*(Math.abs(target.y-camera.position.y)/camSmoothing);
-        }
-        else{
-          camera.position.y -= cameraSpeed*(Math.abs(target.y-camera.position.y)/camSmoothing);
-        }
-      }
-      if(movements[2]){
-        if(camera.position.z < target.z){
-          camera.position.z += cameraSpeed*(Math.abs(target.z-camera.position.z)/camSmoothing);
-        }
-        else{
-          camera.position.z -= cameraSpeed*(Math.abs(target.z-camera.position.z)/camSmoothing);
-        }
-      }
+      values = moveObjectTo(camera, target.x, target.y, target.z, 0.1, cameraSpeed, camSmoothing);
+      movements = values[0];
+      newPos = values[1];
+      camera.position.set(newPos.x, newPos.y, newPos.z);
 
       if(!basicDebugCam){
         camera.lookAt(Tauntaun.position);
       }
 
-
+      if(!movements[0] && !movements[1] && !movements[2]){
+        cameraStage = 5;
+      }
     }
+    //tauntaun turns away
     if(cameraStage == 5){
       if(!basicDebugCam){
         camera.position.set(Tauntaun.position.x+16,Tauntaun.position.y+20, Tauntaun.position.z-20);
@@ -345,6 +243,7 @@ function loop() {
         cameraStage = 6;
       }
     }
+    //tauntaun waddles to staircase
     if(cameraStage == 6){
       if(!basicDebugCam){
         camera.position.set(Tauntaun.position.x+16,Tauntaun.position.y+20, Tauntaun.position.z-20);
@@ -360,6 +259,8 @@ function loop() {
         curPI = 0;
       }
     }
+
+    //tauntaun begins jumping
     if(cameraStage == 7){
       updateStats();
       if(!basicDebugCam){
@@ -404,52 +305,26 @@ function loop() {
             console.log(jumpHeight);
             currStep+=jumpHeight;
           }
-
         }
-
-
       }
 
       target = new THREE.Vector3(points[curPI][0],points[curPI][1],points[curPI][2]);
-      movements = moveTowardPoint(Tauntaun, target.x, target.y, target.z,0.1);
 
+      values = moveObjectTo(Tauntaun, target.x, target.y, target.z, 0.1, cameraSpeed, camSmoothing);
+      movements = values[0];
+      newPos = values[1];
+      Tauntaun.position.set(newPos.x, newPos.y, newPos.z);
 
       if(!movements[0] && !movements[1] && !movements[2]){
         curPI+=1;
       }
-      if(movements[0]){
-        if(Tauntaun.position.x < target.x){
-          Tauntaun.position.x += cameraSpeed*(Math.abs(target.x-Tauntaun.position.x)/camSmoothing);
-        }
-        else{
-          Tauntaun.position.x -= cameraSpeed*(Math.abs(target.x-Tauntaun.position.x)/camSmoothing);
-        }
-      }
-      if(movements[1]){
-        if(Tauntaun.position.y < target.y){
-          Tauntaun.position.y += cameraSpeed*(Math.abs(target.y-Tauntaun.position.y)/camSmoothing);
-        }
-        else{
-          Tauntaun.position.y -= cameraSpeed*(Math.abs(target.y-Tauntaun.position.y)/camSmoothing);
-        }
-      }
-      if(movements[2]){
-        if(Tauntaun.position.z < target.z){
-          Tauntaun.position.z += cameraSpeed*(Math.abs(target.z-Tauntaun.position.z)/camSmoothing);
-        }
-        else{
-          Tauntaun.position.z -= cameraSpeed*(Math.abs(target.z-Tauntaun.position.z)/camSmoothing);
-        }
-      }
-
 
       if(curPI == points.length){
         jumping = false;
         curPI = 0;
       }
-
-
     }
+    //tauntaun runs away
     if(cameraStage == 8){
       if(Tauntaun.position.x > -43-n*3-10){
         Tauntaun.position.x-=0.05;
@@ -459,7 +334,7 @@ function loop() {
         cameraStage = 9;
       }
     }
-
+    //tauntaun turns back
     if(cameraStage == 9){
       if(Tauntaun.rotation.z > -1.1){
         Tauntaun.rotation.z -= 0.01;
@@ -468,6 +343,7 @@ function loop() {
         cameraStage = 10;
       }
     }
+    //tauntaun dances
     if(cameraStage == 10){
       Tauntaun.rotation.x=-1.57+0.1*Math.sin(tick*0.1);
     }
