@@ -1,24 +1,31 @@
-function handleKeyUp(keyEvent){
+import {testPlane} from "./terraingeneration.js";
+import {gameStage,cameraData, mouse, mediaElement, radio, n} from "./game.js";
+import {mainMenuZoom} from "./cameramovements.js";
+
+export function handleKeyUp(keyEvent){
+  if(keyEvent.key == "g"){
+    testPlane();
+  }
 
 }
 
-function handleKeyDown(keyEvent){
+export function handleKeyDown(keyEvent){
   if(keyEvent.key == "m"){
-    if(!playingM){
+    if(!radio.playingM){
       mediaElement.play();
-      playingM = true;
+      radio.playingM = true;
     }
-    else if (playingM){
+    else if (radio.playingM){
       mediaElement.pause();
-      playingM = false;
+      radio.playingM = false;
     }
   }
 
 
-  if(gameStage == 0){
+  if(gameStage.stage == 0){
     if(keyEvent.key != "Alt" && keyEvent.key != "Tab"){
       mediaElement.play();
-      playingM = true;
+      radio.playingM = true;
 
       var boxVar = document.getElementById("banner");
       boxVar.parentNode.removeChild(boxVar);
@@ -26,17 +33,17 @@ function handleKeyDown(keyEvent){
       boxVar.parentNode.removeChild(boxVar);
 
       mainMenuZoom();
-      gameStage = 1;
+      gameStage.stage = 1;
 
     }
   }
 }
 
-function onMouseMove(event){
+export function onMouseMove(event){
       mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
 	    mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
 }
 
-function onMouseDown(event){
+export function onMouseDown(event){
 
 }

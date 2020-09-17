@@ -1,13 +1,11 @@
-function mainMenuZoom(){
-
-  cameraMoving = true;
-  cameraStage = 1;
-
-
+import {cameraData} from "./game.js";
+export function mainMenuZoom(){
+  cameraData.cameraMoving = true;
+  cameraData.cameraStage = 1;
 }
 
 
-function moveTowardPoint(camera, x, y, z, thresh){
+export function moveTowardPoint(camera, x, y, z, thresh){
   return [Math.abs(camera.position.x-x) > thresh,
           Math.abs(camera.position.y-y) > thresh,
           Math.abs(camera.position.z-z) > thresh];
@@ -15,7 +13,7 @@ function moveTowardPoint(camera, x, y, z, thresh){
           //coordinates are the target
 }
 
-function genCircle(){
+export function genCircle(){
   var points = [];
   for(var i = 1; i < 100; i++){
     points.push([(10-2.49*(i/100))*Math.cos(2*3.14159*(i/100)),

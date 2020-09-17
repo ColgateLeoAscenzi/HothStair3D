@@ -1,3 +1,8 @@
+import {handleKeyUp, handleKeyDown, onMouseDown, onMouseMove} from "./input.js"
+import {createStairs, createSpace, createSnow, createTauntaun, createWhiteTransition,createPlatform, createHothPlanet, createStars, createSnowBackground} from "./models.js";
+import {genCircle, moveTowardPoint} from "./cameramovements.js";
+import {parabolicJump, parabolicJumpH, moveObjectTo, createBanner, createStats, updateStats, createInputModal} from "./helpers.js";
+
 function climbingStairs(totalSteps){
   var history = [];
 
@@ -23,7 +28,7 @@ var mouse = new THREE.Vector2();
 var controls;
 var loader = new THREE.TextureLoader();
 
-var snowObj;
+var snowObj = new THREE.Object3D();
 
 var tick = 0;
 
@@ -34,12 +39,11 @@ var differentChoices;
 
 var HEIGHT, WIDTH
 
-var cameraMoving = false;
-var cameraStage = -1;
+var cameraData = {cameraMoving: false, cameraStage: -1};
 
 
 var mediaElement;
-var playingM = false;
+var radio = {playingM: false}
 
 var Tauntaun;
 var Rider;
@@ -51,7 +55,6 @@ var controls;
 //INIT THREE JS, SCREEN AND MOUSE EVENTS
 
 function createCameraRender() {
-
   HEIGHT = window.innerHeight;
   WIDTH = window.innerWidth;
 
@@ -122,7 +125,8 @@ var audio = new THREE.Audio( listener );
 mediaElement = new Audio("sounds/windbackground.mp3");
 mediaElement.loop = true;
 
-gameStage = 0
+var gameStage = {stage: 0};
+
 
 //THIS IS THE GAME LOOP
 function loop() {
@@ -142,7 +146,7 @@ function loop() {
   requestAnimationFrame(loop);
 
 
-  if(cameraMoving){
+  if(cameraData.cameraMoving){
     //trying to move out of loop
     var currentPoint;
     var movements;
@@ -152,7 +156,7 @@ function loop() {
     var cameraSpeed = 0;
     var camSmoothing = 1;
 
-    if(cameraStage == 1){
+    if(cameraData.cameraStage == 1){
       //camera variables
       cameraSpeed = 6*0.12*delta;
       camSmoothing = 2;
@@ -167,12 +171,12 @@ function loop() {
       camera.lookAt(0,0,0);
       //check if it's moved where it needs, update camera
       if(!movements[0] && !movements[1] && !movements[2]){
-        cameraStage = 2;
+        cameraData.cameraStage = 2;
       }
 
     }
 
-    if(cameraStage == 2){
+    if(cameraData.cameraStage == 2){
       cameraSpeed = 100*0.12*delta;
       camSmoothing = 2;
 
@@ -189,13 +193,13 @@ function loop() {
       }
 
       if(curPI >= points.length){
-        cameraStage = 3;
+        cameraData.cameraStage = 3;
       }
     }
 
-    if(cameraStage == 3){
+    if(cameraData.cameraStage == 3){
       createWhiteTransition();
-      cameraMoving = false;
+      cameraData.cameraMoving = false;
       scene = new THREE.Scene();
       camera.position.set(10,14,0);
       camera.lookAt(-20,0,0);
@@ -209,10 +213,9 @@ function loop() {
       createSnow();
       createTauntaun();
       createInputModal();
-
     }
 
-    if(cameraStage == 4){
+    if(cameraData.cameraStage == 4){
       cameraSpeed = 7*0.12*delta;
       camSmoothing = 2;
       target = new THREE.Vector3(Tauntaun.position.x+16,Tauntaun.position.y+20, Tauntaun.position.z-20);
@@ -227,11 +230,11 @@ function loop() {
       }
 
       if(!movements[0] && !movements[1] && !movements[2]){
-        cameraStage = 5;
+        cameraData.cameraStage = 5;
       }
     }
     //tauntaun turns away
-    if(cameraStage == 5){
+    if(cameraData.cameraStage == 5){
       if(!basicDebugCam){
         camera.position.set(Tauntaun.position.x+16,Tauntaun.position.y+20, Tauntaun.position.z-20);
         camera.lookAt(Tauntaun.position);
@@ -240,11 +243,11 @@ function loop() {
         Tauntaun.rotation.z += 0.01;
       }
       else{
-        cameraStage = 6;
+        cameraData.cameraStage = 6;
       }
     }
     //tauntaun waddles to staircase
-    if(cameraStage == 6){
+    if(cameraData.cameraStage == 6){
       if(!basicDebugCam){
         camera.position.set(Tauntaun.position.x+16,Tauntaun.position.y+20, Tauntaun.position.z-20);
         camera.lookAt(Tauntaun.position);
@@ -254,14 +257,14 @@ function loop() {
         Tauntaun.rotation.x=-1.57+0.1*Math.sin(tick*0.1);
       }
       else{
-        cameraStage = 7;
+        cameraData.cameraStage = 7;
         currStep = 0;
         curPI = 0;
       }
     }
 
     //tauntaun begins jumping
-    if(cameraStage == 7){
+    if(cameraData.cameraStage == 7){
       updateStats();
       if(!basicDebugCam){
         camera.position.set(Tauntaun.position.x+16,Tauntaun.position.y+20, Tauntaun.position.z-20);
@@ -273,7 +276,7 @@ function loop() {
       if(!jumping){
         console.log("Steps left: "+(n-currStep));
         if(currStep >= n){
-          cameraStage = 8;
+          cameraData.cameraStage = 8;
         }
         if(currStep == 0){
           console.log(1);
@@ -325,26 +328,26 @@ function loop() {
       }
     }
     //tauntaun runs away
-    if(cameraStage == 8){
+    if(cameraData.cameraStage == 8){
       if(Tauntaun.position.x > -43-n*3-10){
         Tauntaun.position.x-=0.05;
         Tauntaun.rotation.x=-1.57+0.1*Math.sin(tick*0.1);
       }
       else{
-        cameraStage = 9;
+        cameraData.cameraStage = 9;
       }
     }
     //tauntaun turns back
-    if(cameraStage == 9){
+    if(cameraData.cameraStage == 9){
       if(Tauntaun.rotation.z > -1.1){
         Tauntaun.rotation.z -= 0.01;
       }
       else{
-        cameraStage = 10;
+        cameraData.cameraStage = 10;
       }
     }
     //tauntaun dances
-    if(cameraStage == 10){
+    if(cameraData.cameraStage == 10){
       Tauntaun.rotation.x=-1.57+0.1*Math.sin(tick*0.1);
     }
 
@@ -360,7 +363,7 @@ function loop() {
 
 }
 
-function initGame() {
+export function initGame() {
   THREEx.FullScreen.bindKey({ charCode : 'l'.charCodeAt(0) });
   document.onkeydown = handleKeyDown;
   document.onkeyup = handleKeyUp;
@@ -385,3 +388,5 @@ function createWorld(){
 
   loop();
 }
+
+export {gameStage, scene, mouse, mediaElement, radio, cameraData, snowObj, Tauntaun, n}

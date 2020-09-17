@@ -1,5 +1,6 @@
+import {moveTowardPoint} from "./cameramovements.js";
 //MATH HELPERS
-function parabolicJumpH(TTX, TTY, jumpH){
+export function parabolicJumpH(TTX, TTY, jumpH){
   if(jumpH == 1){
     return parabolicJump(TTX, TTX-3, TTY+6);
   }
@@ -8,12 +9,12 @@ function parabolicJumpH(TTX, TTY, jumpH){
   }
 }
 
-function parabolicJump(startX, endX, midY){
+export function parabolicJump(startX, endX, midY){
     return [[startX+4*(endX-startX)/5, midY,0]];
 }
 
 
-function moveObjectTo(object, x, y, z, thresh, speed, smooth){
+export function moveObjectTo(object, x, y, z, thresh, speed, smooth){
   var moves = moveTowardPoint(object, x, y, z, thresh);
   var pos = new THREE.Vector3(object.position.x,object.position.y,object.position.z);
   if(moves[0]){
@@ -51,7 +52,7 @@ function moveObjectTo(object, x, y, z, thresh, speed, smooth){
 
 
 ///HTML HELPERS
-function createBanner(){
+export function createBanner(){
   var container = document.getElementById("container");
   var banner = document.createElement("div");
   banner.id = "banner";
@@ -68,7 +69,7 @@ function createBanner(){
 
 }
 
-function createStats(){
+export function createStats(){
   var container = document.getElementById("container");
   var stats = document.createElement("div");
   stats.id = "stats";
@@ -79,7 +80,7 @@ function createStats(){
   container.appendChild(stats);
 }
 
-function updateStats(){
+export function updateStats(){
   var stats = document.getElementById("stats");
   stats.innerHTML = "<div id='stats' style = 'overflow:hidden'>"
      +"<div style='background-color:black; display:block; height: 5%; width: 100%; position:absolute; top:0%;'>"
@@ -88,7 +89,7 @@ function updateStats(){
      +"</div>";
 }
 
-function createInputModal(){
+export function createInputModal(){
 
   var container = document.getElementById("container");
   var modalDiv = document.createElement("div");

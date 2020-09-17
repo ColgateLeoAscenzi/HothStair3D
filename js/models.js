@@ -1,21 +1,24 @@
+import {scene, snowObj, Tauntaun} from "./game.js";
+import {ConvexGeometry} from "./ConvexGeometry.js";
 function createRider(){
   //TODO if I have time
 }
+
 var platMesh2;
-function createStairs(number){
+export function createStairs(number){
   for(var i = 0; i < number; i++){
     var stair = createStair();
     stair.position.set(-43-i*3,2+i*3,0);
     scene.add(stair);
   }
 
-  var platGeom3 = new THREE.BoxGeometry(3*Math.sqrt(2)*number,2,300, 1,1,1);
-  var platMat3 = new THREE.MeshPhongMaterial({color: 0xd6ecef});
-  var platMesh3 = new THREE.Mesh(platGeom3, platMat3)
+  var stairGeom = new THREE.BoxGeometry(3*Math.sqrt(2)*number,2,300, 1,1,1);
+  var stairMat = new THREE.MeshPhongMaterial({color: 0xd6ecef});
+  var stairMesh = new THREE.Mesh(stairGeom, stairMat)
 
-  platMesh3.position.set(-50+(-number*3)/2,(number*3)/2,0);
-  platMesh3.rotation.set(0,0,-.78);
-  scene.add(platMesh3);
+  stairMesh.position.set(-50+(-number*3)/2,(number*3)/2,0);
+  stairMesh.rotation.set(0,0,-.78);
+  scene.add(stairMesh);
 
   var platGeom4 = new THREE.BoxGeometry(300,2,300, 1,1,1);
   var platMat4 = new THREE.MeshPhongMaterial({color: 0xc5dbde});
@@ -29,7 +32,7 @@ function createStair(){
                         new THREE.MeshBasicMaterial({color: 0xd6ecef}));
 }
 
-function createTauntaun(){
+export function createTauntaun(){
     var GLLoader = new THREE.GLTFLoader();
 
     var tauntaunScene = GLLoader.load("./blendermodels/tauntaun.glb", handle_load);
@@ -46,31 +49,35 @@ function handle_load(gltf){
   Tauntaun.material = new THREE.MeshPhongMaterial({color: 0x000000});
 }
 
-function createPlatform(){
-  var platGeom = new THREE.BoxGeometry(100,2,300, 1,1,1);
-  var platMat = new THREE.MeshPhongMaterial({color: 0xc5dbde});
-
-  scene.add(new THREE.Mesh(platGeom, platMat));
-
-  var platGeom2 = new THREE.BoxGeometry(100,2,100, 1,1,1);
-  var platMat2 = new THREE.MeshPhongMaterial({color: 0xd6ecef});
-  platMesh2 = new THREE.Mesh(platGeom2, platMat2)
-  platMesh2.position.set(-82,35.35,0);
-  platMesh2.rotation.set(0,0,-.78);
-  scene.add(platMesh2);
+export function createPlatform(){
+  // var platGeom = new THREE.BoxGeometry(100,2,300, 1,1,1);
+  // var platMat = new THREE.MeshPhongMaterial({color: 0xc5dbde});
+  //
+  // scene.add(new THREE.Mesh(platGeom, platMat));
+  //
+  // var platGeom2 = new THREE.BoxGeometry(100,2,100, 1,1,1);
+  // var platMat2 = new THREE.MeshPhongMaterial({color: 0xd6ecef});
+  // platMesh2 = new THREE.Mesh(platGeom2, platMat2)
+  // platMesh2.position.set(-82,35.35,0);
+  // platMesh2.rotation.set(0,0,-.78);
+  // scene.add(platMesh2);
+  let points = [new THREE.Vector3(0,15,0),new THREE.Vector3(20,15,0),new THREE.Vector3(20,15,20),new THREE.Vector3(0,15,20)];
+  let geometry = new ConvexGeometry( points );
+  let material = new THREE.MeshBasicMaterial( {color: 0x00ff00} );
+  let mesh = new THREE.Mesh( geometry, material );
+  scene.add( mesh );
 
 }
 
-function createSnowBackground(){
+export function createSnowBackground(){
   var snowBGGeom = new THREE.BoxBufferGeometry(1000,1000,1000,1,1,1);
   var snowBGMat = new THREE.MeshBasicMaterial({color: 0x888888, side: THREE.BackSide});
 
   scene.add(new THREE.Mesh(snowBGGeom, snowBGMat));
 }
 
-function createSnow(){
+export function createSnow(){
   var snowCount = 1000;
-  snowObj = new THREE.Object3D();
 
 
   for(var i = 0; i < snowCount; i++){
@@ -90,20 +97,20 @@ function createSnow(){
   }
 }
 
-function createSnowFlake(){
+export function createSnowFlake(){
   return new THREE.Mesh(new THREE.BoxGeometry(1,1,1,1,1,1),
                         new THREE.MeshBasicMaterial({color: 0xfafafa}));
 }
 
 
 //createWhiteTransition
-function createWhiteTransition(){
+export function createWhiteTransition(){
   var whiteSlate = new THREE.Mesh(new THREE.SphereBufferGeometry(4.9,10,10), new THREE.MeshBasicMaterial({color: 0xffffff, side: THREE.BackSide}));
   scene.add(whiteSlate);
 }
 
 //main menu screen creation
-function createHothPlanet(){
+export function createHothPlanet(){
 
   var loader = new THREE.TextureLoader();
   var texture = loader.load("textures/hoth_surface_bluer_moresnow.png");
@@ -114,14 +121,14 @@ function createHothPlanet(){
 }
 
 
-function createSpace(){
+export function createSpace(){
   var spaceMesh = new THREE.BoxBufferGeometry(1000,1000,1000,1,1,1);
   var spaceMat = new THREE.MeshLambertMaterial({color: 0x000000, side: THREE.BackSide});
 
   scene.add(new THREE.Mesh(spaceMesh, spaceMat));
 }
 
-function createStars(){
+export function createStars(){
   var starCount = 500
 
 
