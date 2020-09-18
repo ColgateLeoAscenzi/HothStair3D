@@ -126,9 +126,7 @@ export function createInputModal(){
         var answer = document.getElementById("numStairs");
         stepNum.n = parseInt(answer.value);
 
-        console.log(stepNum.n);
         stepNum.differentChoices = climbingStairs(stepNum.n);
-        console.log(stepNum.differentChoices);
         scene.remove(platMesh2);
         createStairs(stepNum.n);
         cameraData.cameraStage = 4;

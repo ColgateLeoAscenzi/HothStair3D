@@ -1,11 +1,10 @@
-import {testPlane} from "./terraingeneration.js";
 import {gameStage,cameraData, mouse, mediaElement, radio, stepNum} from "./game.js";
 import {mainMenuZoom} from "./cameramovements.js";
 
 export function handleKeyUp(keyEvent){
-  if(keyEvent.key == "g"){
-    testPlane();
-  }
+  // if(keyEvent.key == "g"){
+  //   testPlane();
+  // }
 
 }
 
@@ -23,7 +22,7 @@ export function handleKeyDown(keyEvent){
 
 
   if(gameStage.stage == 0){
-    if(keyEvent.key != "Alt" && keyEvent.key != "Tab"){
+    if(keyEvent.key != "Alt" && keyEvent.key != "Tab" || keyEvent.key != "Shift"){
       mediaElement.play();
       radio.playingM = true;
 

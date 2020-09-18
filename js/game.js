@@ -1,5 +1,5 @@
 import {handleKeyUp, handleKeyDown, onMouseDown, onMouseMove} from "./input.js"
-import {createStairs, createSpace, createSnow, createTauntaun, createWhiteTransition,createPlatform, createHothPlanet, createStars, createSnowBackground, Tauntaun} from "./models.js";
+import {createStairs, createSpace, createSnow, createTauntaun, createWhiteTransition,createPlatform, createHothPlanet, createStars, createSnowBackground, Tauntaun, createRocks} from "./models.js";
 import {genCircle, moveTowardPoint} from "./cameramovements.js";
 import {parabolicJump, parabolicJumpH, moveObjectTo, createBanner, createStats, updateStats, createInputModal} from "./helpers.js";
 
@@ -212,6 +212,7 @@ function loop() {
       createSnow();
       createTauntaun();
       createInputModal();
+      createRocks();
     }
 
     if(cameraData.cameraStage == 4){
@@ -239,7 +240,7 @@ function loop() {
         camera.lookAt(Tauntaun.mesh.position);
       }
       if(Tauntaun.mesh.rotation.z < 1.57){
-        Tauntaun.mesh.rotation.z += 0.01*(delta/0.05);
+        Tauntaun.mesh.rotation.z += 0.01*2;
       }
       else{
         cameraData.cameraStage = 6;
@@ -252,8 +253,8 @@ function loop() {
         camera.lookAt(Tauntaun.mesh.position);
       }
       if(Tauntaun.mesh.position.x > -40){
-        Tauntaun.mesh.position.x-=0.05*(delta/0.05);
-        Tauntaun.mesh.rotation.x=-1.57+0.1*Math.sin(tick*0.1)*(delta/0.05);
+        Tauntaun.mesh.position.x-=0.05*2;
+        Tauntaun.mesh.rotation.x=-1.57+0.1*Math.sin(tick*0.1)*2;
       }
       else{
         cameraData.cameraStage = 7;
@@ -329,8 +330,8 @@ function loop() {
     //Tauntaun.mesh runs away
     if(cameraData.cameraStage == 8){
       if(Tauntaun.mesh.position.x > -43-stepNum.n*3-10){
-        Tauntaun.mesh.position.x-=0.05*(delta/0.05);
-        Tauntaun.mesh.rotation.x=-1.57+0.1*Math.sin(tick*0.1)*(delta/0.05);
+        Tauntaun.mesh.position.x-=0.05*2;
+        Tauntaun.mesh.rotation.x=-1.57+0.1*Math.sin(tick*0.1)*2;
       }
       else{
         cameraData.cameraStage = 9;
@@ -339,7 +340,7 @@ function loop() {
     //Tauntaun.mesh turns back
     if(cameraData.cameraStage == 9){
       if(Tauntaun.mesh.rotation.z > -1.1){
-        Tauntaun.mesh.rotation.z -= 0.01*(delta/0.05);
+        Tauntaun.mesh.rotation.z -= 0.01*2;
       }
       else{
         cameraData.cameraStage = 10;
@@ -347,7 +348,7 @@ function loop() {
     }
     //Tauntaun.mesh dances
     if(cameraData.cameraStage == 10){
-      Tauntaun.mesh.rotation.x=-1.57+0.1*Math.sin(tick*0.1)*(delta/0.05);
+      Tauntaun.mesh.rotation.x=-1.57+0.1*Math.sin(tick*0.1)*2;
     }
 
   }
