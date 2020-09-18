@@ -52,22 +52,22 @@ function handle_load(gltf){
 }
 
 export function createPlatform(){
-  // var platGeom = new THREE.BoxGeometry(100,2,300, 1,1,1);
-  // var platMat = new THREE.MeshPhongMaterial({color: 0xc5dbde});
-  //
-  // scene.add(new THREE.Mesh(platGeom, platMat));
-  //
-  // var platGeom2 = new THREE.BoxGeometry(100,2,100, 1,1,1);
-  // var platMat2 = new THREE.MeshPhongMaterial({color: 0xd6ecef});
-  // platMesh2 = new THREE.Mesh(platGeom2, platMat2)
-  // platMesh2.position.set(-82,35.35,0);
-  // platMesh2.rotation.set(0,0,-.78);
-  // scene.add(platMesh2);
-  let points = [new THREE.Vector3(0,15,0),new THREE.Vector3(20,15,0),new THREE.Vector3(20,15,20),new THREE.Vector3(0,15,20)];
-  let geometry = new ConvexGeometry( points );
-  let material = new THREE.MeshBasicMaterial( {color: 0x00ff00} );
-  let mesh = new THREE.Mesh( geometry, material );
-  scene.add( mesh );
+  var platGeom = new THREE.BoxGeometry(100,2,300, 1,1,1);
+  var platMat = new THREE.MeshPhongMaterial({color: 0xc5dbde});
+
+  scene.add(new THREE.Mesh(platGeom, platMat));
+
+  var platGeom2 = new THREE.BoxGeometry(100,2,100, 1,1,1);
+  var platMat2 = new THREE.MeshPhongMaterial({color: 0xd6ecef});
+  platMesh2 = new THREE.Mesh(platGeom2, platMat2)
+  platMesh2.position.set(-82,35.35,0);
+  platMesh2.rotation.set(0,0,-.78);
+  scene.add(platMesh2);
+  // let points = [new THREE.Vector3(0,15,0),new THREE.Vector3(20,15,0),new THREE.Vector3(20,15,20),new THREE.Vector3(0,15,20)];
+  // let geometry = new ConvexGeometry( points );
+  // let material = new THREE.MeshBasicMaterial( {color: 0x00ff00} );
+  // let mesh = new THREE.Mesh( geometry, material );
+  // scene.add( mesh );
 
 }
 
