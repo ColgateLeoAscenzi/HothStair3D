@@ -66,6 +66,18 @@ export function onMouseDown(event){
        mainMenuZoom();
        gameStage.stage = 1;
     }
-
+    if(cameraData.cameraStage == 10){
+      if(keyEvent.key != "Alt" && keyEvent.key != "Tab" || keyEvent.key != "Shift"){
+        var boxVar = document.getElementById("playAgain");
+        boxVar.parentNode.removeChild(boxVar);
+        var boxVar = document.getElementById("stats");
+        boxVar.parentNode.removeChild(boxVar);
+        stepNum.currStep = 0;
+        stepNum.n = 0;
+        stepNum.differentChoices = 0;
+        cameraData.cameraStage = 3;
+        cameraData.spawnedBanner = false;
+      }
+    }
 
 }
