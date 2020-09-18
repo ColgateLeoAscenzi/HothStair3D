@@ -1,4 +1,4 @@
-import {gameStage,cameraData, mouse, mediaElement, radio, stepNum, scene} from "./game.js";
+import {gameStage,cameraData, mouse, mediaElement, radio, stepNum, scene} from "./game2.js";
 import {mainMenuZoom} from "./cameramovements.js";
 
 

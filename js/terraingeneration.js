@@ -1,5 +1,5 @@
 import {ConvexGeometry} from "./ConvexGeometry.js";
-import {scene} from "./game.js";
+import {scene} from "./game2.js";
 import {Tauntaun} from "./models.js";
 
 export function createFloor(){

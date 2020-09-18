@@ -1,4 +1,4 @@
-import {scene, snowObj, stepNum} from "./game.js";
+import {scene, snowObj, stepNum} from "./game2.js";
 import {ConvexGeometry} from "./ConvexGeometry.js";
 import {createFloor, generateHill} from "./terraingeneration.js";
 
