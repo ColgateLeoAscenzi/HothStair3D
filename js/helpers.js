@@ -1,5 +1,5 @@
 import {moveTowardPoint} from "./cameramovements.js";
-import {stepNum, differentChoices, currStep, climbingStairs, scene, cameraData, gameStage} from "./game.js";
+import {stepNum, differentChoices, climbingStairs, scene, cameraData, gameStage} from "./game.js";
 import {platMesh2, createStairs} from "./models.js";
 //MATH HELPERS
 export function parabolicJumpH(TTX, TTY, jumpH){
@@ -68,7 +68,17 @@ export function createBanner(){
   title.id = "title";
   title.innerHTML = "<div id = 'title'>Climb-I-Must</div>";
   container.appendChild(title);
+}
 
+export function playAgainBanner(){
+  var container = document.getElementById("container");
+  var banner = document.createElement("div");
+  banner.id = "playAgain";
+  banner.innerHTML = "<div id='banner' style = 'overflow:hidden'>"
+     +"<div style='background-color:black; display:block; height: 20%; width: 100%; position:absolute; bottom:0%;'>"
+       +"<div id='playAgain' style='color:white; position:relative; bottom: -10%; left: 10%; font-size:50px; width:100%'> You got to the top! Press any key to climb again!</div>"
+     +"</div>";
+  container.appendChild(banner);
 }
 
 export function createStats(){
@@ -77,7 +87,7 @@ export function createStats(){
   stats.id = "stats";
   stats.innerHTML = "<div id='stats' style = 'overflow:hidden'>"
      +"<div style='background-color:black; display:block; height: 5%; width: 100%; position:absolute; top:0%;'>"
-       +"<div id='stats' style='color:white; position:relative; top:0%; left: 1%; font-size:50px; width:100%'>Stair Height: "+(stepNum.n)+" Total Possibilities: "+(stepNum.differentChoices)+" Stairs Left: "+(stepNum.n-currStep)+"</div>"
+       +"<div id='stats' style='color:white; position:relative; top:0%; left: 1%; font-size:50px; width:100%'>Stair Height: "+(stepNum.n)+" Total Possibilities: "+(stepNum.differentChoices)+" Stairs Left: "+(stepNum.n-stepNum.currStep)+"</div>"
      +"</div>";
   container.appendChild(stats);
 }
@@ -86,7 +96,7 @@ export function updateStats(){
   var stats = document.getElementById("stats");
   stats.innerHTML = "<div id='stats' style = 'overflow:hidden'>"
      +"<div style='background-color:black; display:block; height: 5%; width: 100%; position:absolute; top:0%;'>"
-       +"<div id='stats' style='color:white; position:relative; top:0%; left: 1%; font-size:50px; width:100%'>Stair Height: "+(stepNum.n)+" Total Possibilities: "+(stepNum.differentChoices)+" Stairs Left: "+(stepNum.n-currStep)+"</div>"
+       +"<div id='stats' style='color:white; position:relative; top:0%; left: 1%; font-size:50px; width:100%'>Stair Height: "+(stepNum.n)+" Total Possibilities: "+(stepNum.differentChoices)+" Stairs Left: "+(stepNum.n-stepNum.currStep)+"</div>"
      +"</div>";
      +"</div>";
 }
@@ -122,7 +132,8 @@ export function createInputModal(){
       close = document.getElementById("closeButton");
 
       close.onclick =function(event){
-        modal.style.display = "none"
+
+        // modal.style.display = "none"
         var answer = document.getElementById("numStairs");
         stepNum.n = parseInt(answer.value);
 
@@ -132,7 +143,8 @@ export function createInputModal(){
         cameraData.cameraStage = 4;
         cameraData.cameraMoving = true;
         gameStage.stage = 3;
-
+        modal = document.getElementById("introModal");
+        modal.parentNode.removeChild(modal);
         createStats();
 
 

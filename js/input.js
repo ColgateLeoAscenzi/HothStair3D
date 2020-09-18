@@ -1,11 +1,21 @@
-import {gameStage,cameraData, mouse, mediaElement, radio, stepNum} from "./game.js";
+import {gameStage,cameraData, mouse, mediaElement, radio, stepNum, scene} from "./game.js";
 import {mainMenuZoom} from "./cameramovements.js";
 
-export function handleKeyUp(keyEvent){
-  // if(keyEvent.key == "g"){
-  //   testPlane();
-  // }
 
+export function handleKeyUp(keyEvent){
+  if(cameraData.cameraStage == 10){
+    if(keyEvent.key != "Alt" && keyEvent.key != "Tab" || keyEvent.key != "Shift"){
+      var boxVar = document.getElementById("playAgain");
+      boxVar.parentNode.removeChild(boxVar);
+      var boxVar = document.getElementById("stats");
+      boxVar.parentNode.removeChild(boxVar);
+      stepNum.currStep = 0;
+      stepNum.n = 0;
+      stepNum.differentChoices = 0;
+      cameraData.cameraStage = 3;
+      cameraData.spawnedBanner = false;
+    }
+  }
 }
 
 export function handleKeyDown(keyEvent){
@@ -44,5 +54,4 @@ export function onMouseMove(event){
 }
 
 export function onMouseDown(event){
-
 }
