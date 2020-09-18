@@ -1,5 +1,5 @@
 import {testPlane} from "./terraingeneration.js";
-import {gameStage,cameraData, mouse, mediaElement, radio, n} from "./game.js";
+import {gameStage,cameraData, mouse, mediaElement, radio, stepNum} from "./game.js";
 import {mainMenuZoom} from "./cameramovements.js";
 
 export function handleKeyUp(keyEvent){

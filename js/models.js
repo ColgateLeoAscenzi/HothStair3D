@@ -1,5 +1,7 @@
-import {scene, snowObj, Tauntaun} from "./game.js";
+import {scene, snowObj} from "./game.js";
 import {ConvexGeometry} from "./ConvexGeometry.js";
+
+var Tauntaun = {mesh: undefined};
 function createRider(){
   //TODO if I have time
 }
@@ -36,17 +38,17 @@ export function createTauntaun(){
     var GLLoader = new THREE.GLTFLoader();
 
     var tauntaunScene = GLLoader.load("./blendermodels/tauntaun.glb", handle_load);
-
 }
 
 function handle_load(gltf){
 
-  Tauntaun = gltf.scene.children[0];
-  scene.add(Tauntaun);
-  Tauntaun.rotation.set(-1.57,0,-1.3);
-  Tauntaun.scale.set(0.2,0.2,0.2);
-  Tauntaun.position.set(-20,5,0);
-  Tauntaun.material = new THREE.MeshPhongMaterial({color: 0x000000});
+  Tauntaun.mesh = gltf.scene.children[0];
+  scene.add(Tauntaun.mesh);
+  Tauntaun.mesh.rotation.set(-1.57,0,-1.3);
+  Tauntaun.mesh.scale.set(0.2,0.2,0.2);
+  Tauntaun.mesh.position.set(-20,5,0);
+  Tauntaun.mesh.material = new THREE.MeshPhongMaterial({color: 0x000000});
+  console.log("first",Tauntaun);
 }
 
 export function createPlatform(){
@@ -158,3 +160,5 @@ function createStar(){
   return new THREE.Mesh(new THREE.SphereBufferGeometry(.75,sides,sides),
                         new THREE.MeshBasicMaterial({color: 0xfafafa}));
 }
+
+export {platMesh2, Tauntaun}

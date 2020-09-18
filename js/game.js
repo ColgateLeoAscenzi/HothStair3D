@@ -1,9 +1,9 @@
 import {handleKeyUp, handleKeyDown, onMouseDown, onMouseMove} from "./input.js"
-import {createStairs, createSpace, createSnow, createTauntaun, createWhiteTransition,createPlatform, createHothPlanet, createStars, createSnowBackground} from "./models.js";
+import {createStairs, createSpace, createSnow, createTauntaun, createWhiteTransition,createPlatform, createHothPlanet, createStars, createSnowBackground, Tauntaun} from "./models.js";
 import {genCircle, moveTowardPoint} from "./cameramovements.js";
 import {parabolicJump, parabolicJumpH, moveObjectTo, createBanner, createStats, updateStats, createInputModal} from "./helpers.js";
 
-function climbingStairs(totalSteps){
+export function climbingStairs(totalSteps){
   var history = [];
 
   for(var i = 0; i < totalSteps+1; i++){
@@ -45,9 +45,8 @@ var cameraData = {cameraMoving: false, cameraStage: -1};
 var mediaElement;
 var radio = {playingM: false}
 
-var Tauntaun;
 var Rider;
-var n;
+var stepNum = {n: 0, differentChoices: 0};
 
 var basicDebugCam = false;
 var controls;
@@ -218,7 +217,7 @@ function loop() {
     if(cameraData.cameraStage == 4){
       cameraSpeed = 7*0.12*delta;
       camSmoothing = 2;
-      target = new THREE.Vector3(Tauntaun.position.x+16,Tauntaun.position.y+20, Tauntaun.position.z-20);
+      target = new THREE.Vector3(Tauntaun.mesh.position.x+16,Tauntaun.mesh.position.y+20, Tauntaun.mesh.position.z-20);
 
       values = moveObjectTo(camera, target.x, target.y, target.z, 0.1, cameraSpeed, camSmoothing);
       movements = values[0];
@@ -226,35 +225,35 @@ function loop() {
       camera.position.set(newPos.x, newPos.y, newPos.z);
 
       if(!basicDebugCam){
-        camera.lookAt(Tauntaun.position);
+        camera.lookAt(Tauntaun.mesh.position);
       }
 
       if(!movements[0] && !movements[1] && !movements[2]){
         cameraData.cameraStage = 5;
       }
     }
-    //tauntaun turns away
+    //Tauntaun.mesh turns away
     if(cameraData.cameraStage == 5){
       if(!basicDebugCam){
-        camera.position.set(Tauntaun.position.x+16,Tauntaun.position.y+20, Tauntaun.position.z-20);
-        camera.lookAt(Tauntaun.position);
+        camera.position.set(Tauntaun.mesh.position.x+16,Tauntaun.mesh.position.y+20, Tauntaun.mesh.position.z-20);
+        camera.lookAt(Tauntaun.mesh.position);
       }
-      if(Tauntaun.rotation.z < 1.57){
-        Tauntaun.rotation.z += 0.01;
+      if(Tauntaun.mesh.rotation.z < 1.57){
+        Tauntaun.mesh.rotation.z += 0.01;
       }
       else{
         cameraData.cameraStage = 6;
       }
     }
-    //tauntaun waddles to staircase
+    //Tauntaun.mesh waddles to staircase
     if(cameraData.cameraStage == 6){
       if(!basicDebugCam){
-        camera.position.set(Tauntaun.position.x+16,Tauntaun.position.y+20, Tauntaun.position.z-20);
-        camera.lookAt(Tauntaun.position);
+        camera.position.set(Tauntaun.mesh.position.x+16,Tauntaun.mesh.position.y+20, Tauntaun.mesh.position.z-20);
+        camera.lookAt(Tauntaun.mesh.position);
       }
-      if(Tauntaun.position.x > -40){
-        Tauntaun.position.x-=0.05;
-        Tauntaun.rotation.x=-1.57+0.1*Math.sin(tick*0.1);
+      if(Tauntaun.mesh.position.x > -40){
+        Tauntaun.mesh.position.x-=0.05;
+        Tauntaun.mesh.rotation.x=-1.57+0.1*Math.sin(tick*0.1);
       }
       else{
         cameraData.cameraStage = 7;
@@ -263,19 +262,19 @@ function loop() {
       }
     }
 
-    //tauntaun begins jumping
+    //Tauntaun.mesh begins jumping
     if(cameraData.cameraStage == 7){
       updateStats();
       if(!basicDebugCam){
-        camera.position.set(Tauntaun.position.x+16,Tauntaun.position.y+20, Tauntaun.position.z-20);
-        camera.lookAt(Tauntaun.position);
+        camera.position.set(Tauntaun.mesh.position.x+16,Tauntaun.mesh.position.y+20, Tauntaun.mesh.position.z-20);
+        camera.lookAt(Tauntaun.mesh.position);
       }
       cameraSpeed = 14*0.12*delta;
       camSmoothing = 2;
 
       if(!jumping){
-        console.log("Steps left: "+(n-currStep));
-        if(currStep >= n){
+        console.log("Steps left: "+(stepNum.n-currStep));
+        if(currStep >= stepNum.n){
           cameraData.cameraStage = 8;
         }
         if(currStep == 0){
@@ -286,24 +285,24 @@ function loop() {
           currStep+=1
         }
         else{
-          if(n - currStep == 2){
-            points = parabolicJumpH(Tauntaun.position.x,Tauntaun.position.y,2);
-            points.push([Math.round(Tauntaun.position.x-6),Math.round(Tauntaun.position.y+6),0])
+          if(stepNum.n - currStep == 2){
+            points = parabolicJumpH(Tauntaun.mesh.position.x,Tauntaun.mesh.position.y,2);
+            points.push([Math.round(Tauntaun.mesh.position.x-6),Math.round(Tauntaun.mesh.position.y+6),0])
             jumping = true;
             console.log(2);
             currStep+=2
           }
-          else if(n - currStep == 1){
-            points = parabolicJumpH(Tauntaun.position.x,Tauntaun.position.y,1);
-            points.push([Math.round(Tauntaun.position.x-3),Math.round(Tauntaun.position.y+3),0])
+          else if(stepNum.n - currStep == 1){
+            points = parabolicJumpH(Tauntaun.mesh.position.x,Tauntaun.mesh.position.y,1);
+            points.push([Math.round(Tauntaun.mesh.position.x-3),Math.round(Tauntaun.mesh.position.y+3),0])
             jumping = true;
             console.log(1);
             currStep+=1
           }
           else{
             var jumpHeight = 1+Math.round(Math.random());
-            points = parabolicJumpH(Tauntaun.position.x,Tauntaun.position.y,jumpHeight);
-            points.push([Math.round(Tauntaun.position.x-3*(jumpHeight)),Math.round(Tauntaun.position.y+3*(jumpHeight)),0])
+            points = parabolicJumpH(Tauntaun.mesh.position.x,Tauntaun.mesh.position.y,jumpHeight);
+            points.push([Math.round(Tauntaun.mesh.position.x-3*(jumpHeight)),Math.round(Tauntaun.mesh.position.y+3*(jumpHeight)),0])
             jumping = true;
             console.log(jumpHeight);
             currStep+=jumpHeight;
@@ -313,10 +312,10 @@ function loop() {
 
       target = new THREE.Vector3(points[curPI][0],points[curPI][1],points[curPI][2]);
 
-      values = moveObjectTo(Tauntaun, target.x, target.y, target.z, 0.1, cameraSpeed, camSmoothing);
+      values = moveObjectTo(Tauntaun.mesh, target.x, target.y, target.z, 0.1, cameraSpeed, camSmoothing);
       movements = values[0];
       newPos = values[1];
-      Tauntaun.position.set(newPos.x, newPos.y, newPos.z);
+      Tauntaun.mesh.position.set(newPos.x, newPos.y, newPos.z);
 
       if(!movements[0] && !movements[1] && !movements[2]){
         curPI+=1;
@@ -327,28 +326,28 @@ function loop() {
         curPI = 0;
       }
     }
-    //tauntaun runs away
+    //Tauntaun.mesh runs away
     if(cameraData.cameraStage == 8){
-      if(Tauntaun.position.x > -43-n*3-10){
-        Tauntaun.position.x-=0.05;
-        Tauntaun.rotation.x=-1.57+0.1*Math.sin(tick*0.1);
+      if(Tauntaun.mesh.position.x > -43-stepNum.n*3-10){
+        Tauntaun.mesh.position.x-=0.05;
+        Tauntaun.mesh.rotation.x=-1.57+0.1*Math.sin(tick*0.1);
       }
       else{
         cameraData.cameraStage = 9;
       }
     }
-    //tauntaun turns back
+    //Tauntaun.mesh turns back
     if(cameraData.cameraStage == 9){
-      if(Tauntaun.rotation.z > -1.1){
-        Tauntaun.rotation.z -= 0.01;
+      if(Tauntaun.mesh.rotation.z > -1.1){
+        Tauntaun.mesh.rotation.z -= 0.01;
       }
       else{
         cameraData.cameraStage = 10;
       }
     }
-    //tauntaun dances
+    //Tauntaun.mesh dances
     if(cameraData.cameraStage == 10){
-      Tauntaun.rotation.x=-1.57+0.1*Math.sin(tick*0.1);
+      Tauntaun.mesh.rotation.x=-1.57+0.1*Math.sin(tick*0.1);
     }
 
   }
@@ -356,9 +355,9 @@ function loop() {
 
   if(snowObj){
     snowObj.position.set(camera.position.x,camera.position.y,camera.position.z);
-    snowObj.rotation.x+=0.002+Math.random()*0.003;
-    snowObj.rotation.y+=0.002+Math.random()*0.002;
-    snowObj.rotation.z+=0.002+Math.random()*0.001;
+    snowObj.rotation.x+=0.002+Math.random()*0.003*delta;
+    snowObj.rotation.y+=0.002+Math.random()*0.002*delta;
+    snowObj.rotation.z+=0.002+Math.random()*0.001*delta;
   }
 
 }
@@ -389,4 +388,4 @@ function createWorld(){
   loop();
 }
 
-export {gameStage, scene, mouse, mediaElement, radio, cameraData, snowObj, Tauntaun, n}
+export {gameStage, scene, mouse, mediaElement, radio, cameraData, snowObj, stepNum, differentChoices, currStep}

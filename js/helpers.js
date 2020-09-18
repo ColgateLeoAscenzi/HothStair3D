@@ -1,4 +1,6 @@
 import {moveTowardPoint} from "./cameramovements.js";
+import {stepNum, differentChoices, currStep, climbingStairs, scene, cameraData, gameStage} from "./game.js";
+import {platMesh2, createStairs} from "./models.js";
 //MATH HELPERS
 export function parabolicJumpH(TTX, TTY, jumpH){
   if(jumpH == 1){
@@ -75,7 +77,7 @@ export function createStats(){
   stats.id = "stats";
   stats.innerHTML = "<div id='stats' style = 'overflow:hidden'>"
      +"<div style='background-color:black; display:block; height: 5%; width: 100%; position:absolute; top:0%;'>"
-       +"<div id='stats' style='color:white; position:relative; top:0%; left: 1%; font-size:50px; width:100%'>Stair Height: "+(n)+" Total Possibilities: "+(differentChoices)+" Stairs Left: "+(n-currStep)+"</div>"
+       +"<div id='stats' style='color:white; position:relative; top:0%; left: 1%; font-size:50px; width:100%'>Stair Height: "+(stepNum.n)+" Total Possibilities: "+(stepNum.differentChoices)+" Stairs Left: "+(stepNum.n-currStep)+"</div>"
      +"</div>";
   container.appendChild(stats);
 }
@@ -84,7 +86,7 @@ export function updateStats(){
   var stats = document.getElementById("stats");
   stats.innerHTML = "<div id='stats' style = 'overflow:hidden'>"
      +"<div style='background-color:black; display:block; height: 5%; width: 100%; position:absolute; top:0%;'>"
-       +"<div id='stats' style='color:white; position:relative; top:0%; left: 1%; font-size:50px; width:100%'>Stair Height: "+(n)+" Total Possibilities: "+(differentChoices)+" Stairs Left: "+(n-currStep)+"</div>"
+       +"<div id='stats' style='color:white; position:relative; top:0%; left: 1%; font-size:50px; width:100%'>Stair Height: "+(stepNum.n)+" Total Possibilities: "+(stepNum.differentChoices)+" Stairs Left: "+(stepNum.n-currStep)+"</div>"
      +"</div>";
      +"</div>";
 }
@@ -122,16 +124,16 @@ export function createInputModal(){
       close.onclick =function(event){
         modal.style.display = "none"
         var answer = document.getElementById("numStairs");
-        n = parseInt(answer.value);
+        stepNum.n = parseInt(answer.value);
 
-        console.log(n);
-        differentChoices = climbingStairs(n);
-        console.log(differentChoices);
+        console.log(stepNum.n);
+        stepNum.differentChoices = climbingStairs(stepNum.n);
+        console.log(stepNum.differentChoices);
         scene.remove(platMesh2);
-        createStairs(n);
-        cameraStage = 4;
-        cameraMoving = true;
-        gameStage = 3;
+        createStairs(stepNum.n);
+        cameraData.cameraStage = 4;
+        cameraData.cameraMoving = true;
+        gameStage.stage = 3;
 
         createStats();
 
