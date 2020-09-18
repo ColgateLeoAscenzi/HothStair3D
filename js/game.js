@@ -265,6 +265,8 @@ function loop() {
         cameraData.cameraStage = 7;
         stepNum.currStep = 0;
         curPI = 0;
+        points = [];
+        jumping = false;
       }
     }
 
@@ -279,12 +281,12 @@ function loop() {
       camSmoothing = 2;
 
       if(!jumping){
-        console.log("Steps left: "+(stepNum.n-stepNum.currStep));
+        // console.log("Steps left: "+(stepNum.n-stepNum.currStep));
         if(stepNum.currStep >= stepNum.n){
           cameraData.cameraStage = 8;
         }
         if(stepNum.currStep == 0){
-          console.log(1);
+          // console.log(1);
           points = parabolicJump(-40,-43,10);
           points.push([-43,3+5,0])
           jumping = true;
@@ -295,14 +297,14 @@ function loop() {
             points = parabolicJumpH(Tauntaun.mesh.position.x,Tauntaun.mesh.position.y,2);
             points.push([Math.round(Tauntaun.mesh.position.x-6),Math.round(Tauntaun.mesh.position.y+6),0])
             jumping = true;
-            console.log(2);
+            // console.log(2);
             stepNum.currStep+=2
           }
           else if(stepNum.n - stepNum.currStep == 1){
             points = parabolicJumpH(Tauntaun.mesh.position.x,Tauntaun.mesh.position.y,1);
             points.push([Math.round(Tauntaun.mesh.position.x-3),Math.round(Tauntaun.mesh.position.y+3),0])
             jumping = true;
-            console.log(1);
+            // console.log(1);
             stepNum.currStep+=1
           }
           else{
@@ -310,7 +312,7 @@ function loop() {
             points = parabolicJumpH(Tauntaun.mesh.position.x,Tauntaun.mesh.position.y,jumpHeight);
             points.push([Math.round(Tauntaun.mesh.position.x-3*(jumpHeight)),Math.round(Tauntaun.mesh.position.y+3*(jumpHeight)),0])
             jumping = true;
-            console.log(jumpHeight);
+            // console.log(jumpHeight);
             stepNum.currStep+=jumpHeight;
           }
         }
