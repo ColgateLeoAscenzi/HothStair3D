@@ -54,4 +54,21 @@ export function onMouseMove(event){
 }
 
 export function onMouseDown(event){
+  if(navigator.userAgent.match(/Android/i)){
+    if(gameStage.stage == 0){
+    if(keyEvent.key != "Alt" && keyEvent.key != "Tab" || keyEvent.key != "Shift"){
+      mediaElement.play();
+      radio.playingM = true;
+
+      var boxVar = document.getElementById("banner");
+      boxVar.parentNode.removeChild(boxVar);
+      var boxVar = document.getElementById("title");
+      boxVar.parentNode.removeChild(boxVar);
+
+      mainMenuZoom();
+      gameStage.stage = 1;
+
+    }
+  }
+}
 }
