@@ -28,7 +28,7 @@ export function createStairs(number){
         var scale = 1;
         scale = 2+Math.random()*3;
         scene.add(selectedRock);
-        selectedRock.position.set(-45-i*3,2+i*3,10+Math.random()*130);
+        selectedRock.position.set(-51-i*3,2+i*3,10+Math.random()*130);
         selectedRock.scale.set(scale+Math.random()*0.6,scale+Math.random()*0.2,scale+Math.random()*0.6);
         selectedRock.rotation.set(Math.random(), Math.random(), Math.random());
       }
@@ -40,7 +40,7 @@ export function createStairs(number){
         var scale = 1;
         scale = 2+Math.random()*5;
         scene.add(selectedRock);
-        selectedRock.position.set(-45-i*3,2+i*3,-11 -Math.random()*130);
+        selectedRock.position.set(-51-i*3,2+i*3,-11 -Math.random()*130);
         selectedRock.scale.set(scale+Math.random()*0.6,scale+Math.random()*0.2,scale+Math.random()*0.6);
         selectedRock.rotation.set(Math.random(), Math.random(), Math.random());
       }
@@ -50,15 +50,15 @@ export function createStairs(number){
     // }
   }
 
-  // var stairGeom = new THREE.BoxGeometry(3*Math.sqrt(2)*number,2,300, 1,1,1);
-  // var stairMat = new THREE.MeshPhongMaterial({color: 0xd6ecef});
-  // var stairMesh = new THREE.Mesh(stairGeom, stairMat)
-  //
-  // stairMesh.position.set(-50+(-number*3)/2,(number*3)/2,0);
-  // stairMesh.rotation.set(0,0,-.78);
-  // scene.add(stairMesh);
+  var stairGeom = new THREE.BoxGeometry(3*Math.sqrt(2)*number,2,300, 1,1,1);
+  var stairMat = new THREE.MeshPhongMaterial({color: 0xd6ecef});
+  var stairMesh = new THREE.Mesh(stairGeom, stairMat)
 
-  generateHill(number*3, 10, 10);
+  stairMesh.position.set(-50+(-number*3)/2,(number*3)/2,0);
+  stairMesh.rotation.set(0,0,-.78);
+  scene.add(stairMesh);
+
+  // generateHill(number*3, 10, 10);
 
   var platGeom4 = new THREE.BoxGeometry(300,2,300, 1,1,1);
   var platMat4 = new THREE.MeshPhongMaterial({color: 0xc5dbde});
