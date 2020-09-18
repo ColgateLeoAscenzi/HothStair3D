@@ -1,4 +1,4 @@
-import {cameraData} from "./game2.js";
+import {cameraData} from "./game.js";
 export function mainMenuZoom(){
   cameraData.cameraMoving = true;
   cameraData.cameraStage = 1;

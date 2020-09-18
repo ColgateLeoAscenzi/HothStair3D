@@ -1,5 +1,5 @@
 import {moveTowardPoint} from "./cameramovements.js";
-import {stepNum, differentChoices, climbingStairs, scene, cameraData, gameStage} from "./game2.js";
+import {stepNum, differentChoices, climbingStairs, scene, cameraData, gameStage} from "./game.js";
 import {platMesh2, createStairs} from "./models.js";
 //MATH HELPERS
 export function parabolicJumpH(TTX, TTY, jumpH){
